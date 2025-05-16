@@ -1,0 +1,28 @@
+# .github/workflows/rust.yml
+name: Rust
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    - name: Install cargo-tarpaulin
+      uses: actions-rs/install@v0.1
+      with:
+        crate: cargo-tarpaulin
+        version: latest
+    - name: Run tests
+      run: cargo test --verbose
+    - name: Run tarpaulin
+      run: cargo tarpaulin --verbose --workspace --out Xml
