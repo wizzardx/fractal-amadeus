@@ -50,7 +50,10 @@ def run_smoke_test():
     # Prepare the API request
     payload = {
         "model": "claude-3-haiku-20240307",
-        "max_tokens": 1000,
+        "temperature": 0,             # Full determinism – always choose the most likely token
+        "top_p": 0.9,                 # Sample only from the top 90% probability mass (slightly trims edge cases)
+        "stop_sequences": ["User:"],  # Stops at a logical boundary – useful if you later auto-parse response blocks
+        "max_tokens": 1000,           # Reasonable ceiling to ensure long enough replies but avoid overrun
         "messages": [
             {
                 "role": "user",
@@ -58,7 +61,6 @@ def run_smoke_test():
             }
         ]
     }
-
     try:
         # Send the request to Claude API
         print("📡 Establishing connection to Amadeus system...")
