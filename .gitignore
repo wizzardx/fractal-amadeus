@@ -1,4 +1,5 @@
 /target
 /old/
+/coverage/
 repomix-output.xml
-coverage/
+.env

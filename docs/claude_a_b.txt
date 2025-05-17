@@ -1,0 +1,5 @@
+Random terminology:
+
+- Claude A refers to our current Claude 3.7 session, used for R&D, creation of pre-prompts
+
+- Claude B refers to a separate Claude 3.7 session, used for testing our pre-prompts in. We get our actual responses from a simulated "AI Amadeus Makise" from here.
