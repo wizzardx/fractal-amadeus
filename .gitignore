@@ -3,3 +3,5 @@
 /coverage/
 repomix-output.xml
 .env
+.coverage
+__pycache__
