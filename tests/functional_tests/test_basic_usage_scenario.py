@@ -37,7 +37,8 @@ def load_preprompt():
         print("Error: Could not find latest_preprompt.md")
         sys.exit(1)
 
-def run_smoke_test():
+
+def test_run_smoke_test():
     """Run a basic smoke test to verify Claude API connectivity and character response"""
     print("🔬 Initiating Fractal Amadeus e2e smoke test sequence...")
     print("🧪 Testing connection to Claude 3.5 Haiku API...")
@@ -61,40 +62,27 @@ def run_smoke_test():
             }
         ]
     }
-    try:
-        # Send the request to Claude API
-        print("📡 Establishing connection to Amadeus system...")
-        response = requests.post(API_URL, headers=HEADERS, json=payload)
 
-        if response.status_code != 200:
-            print(f"❌ Connection failed: API returned status code {response.status_code}")
-            print(f"Response: {response.text}")
-            sys.exit(1)
+    # Send the request to Claude API
+    print("📡 Establishing connection to Amadeus system...")
+    response = requests.post(API_URL, headers=HEADERS, json=payload)
+    response.raise_for_status()
 
-        # Parse the response
-        result = response.json()
-        message_content = result["content"][0]["text"]
+    # Parse the response
+    result = response.json()
+    message_content = result["content"][0]["text"]
 
-        # Display the response
-        print("\n===== AMADEUS SYSTEM RESPONSE =====\n")
-        print(message_content)
-        print("\n===================================\n")
+    # Display the response
+    print("\n===== AMADEUS SYSTEM RESPONSE =====\n")
+    print(message_content)
+    print("\n===================================\n")
 
-        # Check if the response contains expected elements
-        expected_elements = ["Kurisu:", "System boot", "["]
-        missing_elements = [elem for elem in expected_elements if elem not in message_content]
+    # Check if the response contains expected elements
+    expected_elements = ["Kurisu:", "System boot", "["]
+    missing_elements = [elem for elem in expected_elements if elem not in message_content]
+    assert missing_elements == []
 
-        if not missing_elements:
-            print("✅ Test PASSED - Amadeus Kurisu response validated")
-            return True
-        else:
-            print(f"❌ Test FAILED - Response missing expected elements: {missing_elements}")
-            return False
-
-    except Exception as e:
-        print(f"❌ Error during API call: {str(e)}")
-        sys.exit(1)
 
 if __name__ == "__main__":
-    success = run_smoke_test()
+    success = test_run_smoke_test()
     sys.exit(0 if success else 1)
