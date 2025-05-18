@@ -11,11 +11,14 @@ packages = [{include = "fractal_amadeus"}]
 python = "^3.11"
 requests = "^2.32.3"
 dotenv = "^0.9.9"
+icecream = "^2.1.4"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
 pytest-cov = "^6.1.1"
+typeguard = "^4.4.2"
+icontract = "^2.7.1"
 
 [build-system]
 requires = ["poetry-core"]

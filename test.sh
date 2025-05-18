@@ -1,16 +1,20 @@
 #!/bin/bash
+# Suggested repo path: test.sh
+# Test script for running all Fractal Amadeus tests
 
-set -e
-set -x
+set -e  # Exit immediately if a command exits with a non-zero status
+set -x  # Print commands and their arguments as they are executed
 poetry install
-repomix
-tree -h -L 2
+# Run repomix only if the command is available
+if command -v repomix &> /dev/null; then
+    repomix
+    tree -h -L 2
+else
+    echo "Repomix not found, skipping..."
+fi
 git status
-poetry run pytest --cov=fractal_amadeus tests/
-
-# This one is significant, so we run it again at the end:
-tests/functional_tests/test_basic_usage_scenario.py
+poetry run pytest --cov=fractal_amadeus --exitfirst --failed-first tests/
 
 echo
-echo "All the tests stucceed successfully!"
+echo "All tests succeeded successfully!"
 echo
